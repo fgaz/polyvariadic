@@ -6,22 +6,22 @@ module Data.Accumulator where -- MAYBE rename to Accumulate
 
 import qualified Data.Set as Set
 
-newtype UnfoldableMonoid a = UnfoldableMonoid {getUnfoldableMonoid :: a} deriving Monoid
+newtype AccumulatorMonoid a = AccumulatorMonoid {getAccumulatorMonoid :: a} deriving Monoid
 
-class Unfoldable c i | c -> i where
+class Accumulator c i | c -> i where
   insert :: i -> c -> c
   empty :: c
   singleton :: i -> c
   singleton = flip insert empty
 
-instance Unfoldable [a] a where
+instance Accumulator [a] a where
   insert = (:)
   empty = []
 
-instance Unfoldable (Set.Set a) a where
+instance Ord a => Accumulator (Set.Set a) a where
   --TODO
 
-instance Monoid m => Unfoldable (UnfoldableMonoid m) (UnfoldableMonoid m) where
+instance Monoid m => Accumulator (AccumulatorMonoid m) (AccumulatorMonoid m) where
   insert = mappend
   empty = mempty
 
