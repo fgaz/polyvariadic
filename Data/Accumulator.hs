@@ -19,7 +19,8 @@ instance Accumulator [a] a where
   empty = []
 
 instance Ord a => Accumulator (Set.Set a) a where
-  --TODO
+  insert = Set.insert
+  empty = Set.empty
 
 instance Monoid m => Accumulator (AccumulatorMonoid m) (AccumulatorMonoid m) where
   insert = mappend
