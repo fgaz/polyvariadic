@@ -9,20 +9,19 @@ import Data.Accumulator
 
 ---- creation
 
-applyToAccumulatedArgs :: (Varargs a b x, Accumulator a i) => (a -> b) -> x
-applyToAccumulatedArgs = varargs empty
---argsToAccumulator :: Varargs a a x => x
+applyToAccumulatedArgs :: (Polyvariadic a b x, Accumulator a i) => (a -> b) -> x
+applyToAccumulatedArgs = polyvariadic empty
+--argsToAccumulator :: Polyvariadic a a x => x
 --argsToAccumulator = applyToAccumulatedArgs id
 
---MAYBE rename to Polyvariadic
-class Varargs accumulator result x where
-  varargs :: accumulator -> (accumulator -> result) -> x
+class Polyvariadic accumulator result x where
+  polyvariadic :: accumulator -> (accumulator -> result) -> x
 
-instance (Accumulator c i, Varargs c b x) => Varargs c b (i -> x) where
-  varargs a f x = varargs (insert x a) f
+instance (Accumulator c i, Polyvariadic c b x) => Polyvariadic c b (i -> x) where
+  polyvariadic a f x = polyvariadic (insert x a) f
 
-instance Varargs accumulator result result where
-  varargs a f = f a
+instance Polyvariadic accumulator result result where
+  polyvariadic a f = f a
 
 
 ---- application
