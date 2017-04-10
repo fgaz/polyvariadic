@@ -1,12 +1,16 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Data.Accumulator where -- MAYBE rename to Accumulate
 
 import qualified Data.Set as Set
 
-newtype AccumulatorMonoid a = AccumulatorMonoid {getAccumulatorMonoid :: a} deriving Monoid
+newtype AccumulatorMonoid a = AccumulatorMonoid {getAccumulatorMonoid :: a}
+
+instance Monoid m => Monoid (AccumulatorMonoid m) where
+  mempty = AccumulatorMonoid mempty
+  mappend (AccumulatorMonoid a) (AccumulatorMonoid b) = AccumulatorMonoid $ mappend a b
+
 
 class Accumulator c i | c -> i where
   insert :: i -> c -> c
