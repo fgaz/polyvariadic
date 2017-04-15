@@ -1,9 +1,8 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
 module Data.Function.Polyvariadic
-  (
-    -- * Creation
-    Polyvariadic (polyvariadic)
+  ( -- * Creation
+    Polyvariadic (..)
   , applyToAccumulatedArgs
     -- * Application
   , Apply (apply')
@@ -28,7 +27,7 @@ import Data.Accumulator
 --
 -- @
 -- magicChar = \'%\'
--- notMagicChar c = c \/= magicChar
+-- notMagicChar = (\/= magicChar)
 --
 -- data PrintfAccum = PrintfAccum { done :: String, todo :: String }
 --
@@ -44,8 +43,11 @@ import Data.Accumulator
 -- @
 --
 -- >>> printf' "aaa%bbb%ccc%ddd" "TEST" 123 True
--- "aaaTESTbbb123cccTrueddd"
+-- "aaa\"TEST\"bbb123cccTrueddd"
 class Polyvariadic accumulator result x where
+  -- | Takes an accumulator @acc@, a function @f@, and an arbitrary
+  -- number of additional arguments which will be accumulated in @acc@,
+  -- which is finally passed to @f@.
   polyvariadic :: accumulator -> (accumulator -> result) -> x
 
 -- | Accumulates the next argument
