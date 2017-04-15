@@ -3,7 +3,6 @@
 module Data.Function.Polyvariadic
   ( -- * Creation
     Polyvariadic (..)
-  , applyToAccumulatedArgs
     -- * Application
   , Apply (apply')
   , apply
@@ -58,11 +57,6 @@ instance (Accumulator c i, Polyvariadic c b x) => Polyvariadic c b (i -> x) wher
 -- to the 'Accumulator'
 instance Polyvariadic accumulator result result where
   polyvariadic a f = f a
-
-applyToAccumulatedArgs :: (Polyvariadic a b x, Monoid a) => (a -> b) -> x
-applyToAccumulatedArgs = polyvariadic mempty
---argsToAccumulator :: Polyvariadic a a x => x
---argsToAccumulator = applyToAccumulatedArgs id
 
 
 ---- application
