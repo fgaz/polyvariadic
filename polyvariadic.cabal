@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                polyvariadic
-version:             0.2.0.0
+version:             0.2.1.0
 synopsis:            Creation and application of polyvariadic functions
 -- description:         
 homepage:            https://github.com/fgaz/polyvariadic
