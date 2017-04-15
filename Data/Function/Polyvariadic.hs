@@ -28,10 +28,11 @@ import Data.Accumulator
 --
 -- @
 -- magicChar = \'%\'
+--
 -- data PrintfAccum = PrintfAccum { done :: String, todo :: String }
+--
 -- instance (Show x) => Accumulator PrintfAccum x where
---   empty = ("","")
---   insert x (PrintfAccum done (_:todo)) = PrintfAccum (done ++ show x ++ (takeWhile (\/= magicChar) todo)) (dropWhile (\/= magicChar) todo)
+--   insert x (PrintfAccum done (_:todo)) = PrintfAccum (done ++ show x ++ takeWhile (\/= magicChar) todo) (dropWhile (\/= magicChar) todo)
 --   insert x acc = acc
 --
 -- printf' str = polyvariadic (PrintfAccum (takeWhile (\/= magicChar) str) (dropWhile (\/= magicChar) str)) id
@@ -43,15 +44,15 @@ class Polyvariadic accumulator result x where
 
 -- | Accumulates the next argument
 instance (Accumulator c i, Polyvariadic c b x) => Polyvariadic c b (i -> x) where
-  polyvariadic a f x = polyvariadic (insert x a) f
+  polyvariadic a f x = polyvariadic (accumulate x a) f
 
 -- | There are no more arguments to accumulate so the function is applied
 -- to the 'Accumulator'
 instance Polyvariadic accumulator result result where
   polyvariadic a f = f a
 
-applyToAccumulatedArgs :: (Polyvariadic a b x, Accumulator a i) => (a -> b) -> x
-applyToAccumulatedArgs = polyvariadic empty
+applyToAccumulatedArgs :: (Polyvariadic a b x, Monoid a) => (a -> b) -> x
+applyToAccumulatedArgs = polyvariadic mempty
 --argsToAccumulator :: Polyvariadic a a x => x
 --argsToAccumulator = applyToAccumulatedArgs id
 

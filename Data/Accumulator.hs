@@ -1,5 +1,4 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE FlexibleInstances #-}
 module Data.Accumulator where -- MAYBE rename to Accumulate
 
@@ -12,29 +11,22 @@ instance Monoid m => Monoid (AccumulatorMonoid m) where
   mempty = AccumulatorMonoid mempty
   mappend (AccumulatorMonoid a) (AccumulatorMonoid b) = AccumulatorMonoid $ mappend a b
 
--- | An 'Accumulator c i' supports creation of an empty accumulator of type c
--- and accumulation of elements of type i in it.
--- This is different from 'Monoid', where '<>' acts between two values with the same type.
-class Accumulator c i | c -> i where
-  insert :: i -> c -> c -- ^ Accumulate a value
-  --MAYBE empty is not necessaryly empty. Rename to new or something?
-  --MAYBE remove entirely? Empty is not necessary anywhere in polyvariadic
-  --and introduces a functional dependency. which is bad.
-  empty :: c -- ^ Empty accumulator
+-- | An 'Accumulator c i' supports accumulation of elements of type i in it.
+-- This is different from 'Semigroup' or 'Monoid', where '<>' acts between
+-- two values with the same type.
+class Accumulator acc x where
+  accumulate :: x -> acc -> acc -- ^ Accumulate a value
 
--- | Accumulate a single value
-singleton :: Accumulator c i => i -> c
-singleton = flip insert empty
+-- | Accumulate a single value in a 'Monoid'
+singleton :: (Accumulator acc x, Monoid acc) => x -> acc
+singleton = flip accumulate mempty
 
 instance Accumulator [a] a where
-  insert = (:)
-  empty = []
+  accumulate = (:)
 
 instance Ord a => Accumulator (Set.Set a) a where
-  insert = Set.insert
-  empty = Set.empty
+  accumulate = Set.insert
 
 instance Monoid m => Accumulator (AccumulatorMonoid m) (AccumulatorMonoid m) where
-  insert = mappend
-  empty = mempty
+  accumulate = mappend
 
