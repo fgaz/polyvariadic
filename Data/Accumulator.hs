@@ -20,13 +20,6 @@ module Data.Accumulator
 
 import qualified Data.Set as Set
 
--- | Lift a monoid into an Accumulator. This is a newtype because the mappend isn't always the ideal way of accumulating
-newtype AccumulatorMonoid a = AccumulatorMonoid {getAccumulatorMonoid :: a}
-
-instance Monoid m => Monoid (AccumulatorMonoid m) where
-  mempty = AccumulatorMonoid mempty
-  mappend (AccumulatorMonoid a) (AccumulatorMonoid b) = AccumulatorMonoid $ mappend a b
-
 -- | An 'Accumulator c i' supports accumulation of elements of type i in it.
 -- This is different from 'Semigroup' or 'Monoid', where '<>' acts between
 -- two values with the same type.
@@ -45,4 +38,11 @@ instance Ord a => Accumulator (Set.Set a) a where
 
 instance Monoid m => Accumulator (AccumulatorMonoid m) (AccumulatorMonoid m) where
   accumulate = mappend
+
+-- | Lift a monoid into an Accumulator. This is a newtype because the mappend isn't always the ideal way of accumulating
+newtype AccumulatorMonoid a = AccumulatorMonoid {getAccumulatorMonoid :: a}
+
+instance Monoid m => Monoid (AccumulatorMonoid m) where
+  mempty = AccumulatorMonoid mempty
+  mappend (AccumulatorMonoid a) (AccumulatorMonoid b) = AccumulatorMonoid $ mappend a b
 
