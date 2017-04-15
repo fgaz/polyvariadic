@@ -15,6 +15,7 @@
 module Data.Accumulator
   ( Accumulator (..)
   , singleton
+  , accumulateMany
   , AccumulatorMonoid (..)
   ) where
 
