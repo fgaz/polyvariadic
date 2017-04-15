@@ -106,5 +106,5 @@ instance Apply a b b where
 
 -- | Like 'apply'' but with an arbitrary 'Foldable' instead if a list
 apply :: (Apply a b x, Foldable t) => x -> t a -> b
-apply f t = apply f $ toList t
+apply f = apply f . toList
 
