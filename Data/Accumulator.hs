@@ -1,6 +1,10 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
-module Data.Accumulator where -- MAYBE rename to Accumulate
+module Data.Accumulator
+  ( Accumulator (..)
+  , singleton
+  , AccumulatorMonoid (..)
+  ) where
 
 import qualified Data.Set as Set
 
