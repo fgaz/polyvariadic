@@ -19,6 +19,7 @@ module Data.Accumulator
   ) where
 
 import qualified Data.Set as Set
+import           Data.Foldable (foldl')
 
 -- | An 'Accumulator c i' supports accumulation of elements of type i in it.
 -- This is different from 'Semigroup' or 'Monoid', where '<>' acts between
@@ -29,6 +30,10 @@ class Accumulator acc x where
 -- | Accumulate a single value in a 'Monoid'
 singleton :: (Accumulator acc x, Monoid acc) => x -> acc
 singleton = flip accumulate mempty
+
+-- | Strictly accumulate multiple values from a 'Foldable', from left to right
+accumulateMany :: (Foldable f, Accumulator acc x) => f x -> acc -> acc
+accumulateMany xs acc = foldl' (flip accumulate) acc xs
 
 instance Accumulator [a] a where
   accumulate = (:)
