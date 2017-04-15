@@ -27,3 +27,8 @@ printf' str = polyvariadic
                done
 ```
 
+```haskell
+>>> printf' "aaa%bbb%ccc%ddd" "TEST" 123 True
+"aaa\"TEST\"bbb123cccTrueddd"
+```
+
