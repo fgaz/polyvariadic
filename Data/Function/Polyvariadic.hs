@@ -1,5 +1,17 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
+
+-- |
+-- Module      :  Data.Function.Polyvariadic
+-- Copyright   :  (c) Francesco Gazzetta 2017
+-- License     :  BSD3 (see the file LICENSE)
+--
+-- Maintainer  :  francygazz@gmail.org
+-- Stability   :  experimental
+-- Portability :  portable
+--
+-- Create and apply functions with an arbitrary number of arguments.
+
 module Data.Function.Polyvariadic
   ( -- * Creation
     Polyvariadic (..)
@@ -21,10 +33,20 @@ import Data.Accumulator
 --
 -- ==== __Examples__
 --
+-- Three integers to a list. Note that you have to add type annotations
+-- for nearly everything to avoid ambiguities
+-- >>> polyvariadic mempty (id :: [Int] -> [Int]) (1::Int) (2::Int) (3::Int) :: [Int]
+--
 -- The classic @printf@ function, which takes an arbitrary amount of arguments
--- and inserts them in a string.
+-- and inserts them in a string:
 --
 -- @
+-- {-# LANGUAGE MultiParamTypeClasses #-}
+-- {-# LANGUAGE FlexibleInstances #-}
+-- {-# LANGUAGE FlexibleContexts #-}
+-- import Data.Function.Polyvariadic
+-- import Data.Accumulator
+--
 -- magicChar = \'%\'
 -- notMagicChar = (\/= magicChar)
 --
@@ -65,6 +87,11 @@ instance Polyvariadic accumulator result result where
 -- elements of a list.
 --
 -- __Will raise an error if the list doesn't have enough elements__
+--
+-- ==== __Examples__
+--
+-- >>> apply ((+) :: Int -> Int -> Int) ([1,2] :: [Int]) :: Int
+-- 3
 class Apply a b x where
   apply' :: x -> [a] -> b
 

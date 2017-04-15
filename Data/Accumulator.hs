@@ -1,5 +1,17 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
+
+-- |
+-- Module      :  Data.Accumulator
+-- Copyright   :  (c) Francesco Gazzetta 2017
+-- License     :  BSD3 (see the file LICENSE)
+--
+-- Maintainer  :  francygazz@gmail.org
+-- Stability   :  stable
+-- Portability :  portable
+--
+-- Accumulators, primarily useful for Polyvariadic
+
 module Data.Accumulator
   ( Accumulator (..)
   , singleton
