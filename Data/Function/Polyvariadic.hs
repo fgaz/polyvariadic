@@ -22,23 +22,29 @@ import Data.Accumulator
 -- which will then be passed as an argument to the function.
 --
 -- ==== __Examples__
--- TODO
+--
 -- The classic @printf@ function, which takes an arbitrary amount of arguments
 -- and inserts them in a string.
 --
 -- @
 -- magicChar = \'%\'
+-- notMagicChar c = c \/= magicChar
 --
 -- data PrintfAccum = PrintfAccum { done :: String, todo :: String }
 --
--- instance (Show x) => Accumulator PrintfAccum x where
---   insert x (PrintfAccum done (_:todo)) = PrintfAccum (done ++ show x ++ takeWhile (\/= magicChar) todo) (dropWhile (\/= magicChar) todo)
---   insert x acc = acc
+-- instance Show x => Accumulator PrintfAccum x where
+--   accumulate x (PrintfAccum done (_:todo)) = PrintfAccum
+--                                               (done ++ show x ++ takeWhile notMagicChar todo)
+--                                               (dropWhile notMagicChar todo)
+--   accumulate _ acc = acc
 --
--- printf' str = polyvariadic (PrintfAccum (takeWhile (\/= magicChar) str) (dropWhile (\/= magicChar) str)) id
+-- printf' str = polyvariadic
+--                (PrintfAccum (takeWhile notMagicChar str) (dropWhile notMagicChar str))
+--                done
 -- @
 --
--- >>> printf' "test%asd%12%3" 'A' 666 True
+-- >>> printf' "aaa%bbb%ccc%ddd" "TEST" 123 True
+-- "aaaTESTbbb123cccTrueddd"
 class Polyvariadic accumulator result x where
   polyvariadic :: accumulator -> (accumulator -> result) -> x
 
