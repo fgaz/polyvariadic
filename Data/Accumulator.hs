@@ -16,11 +16,12 @@ module Data.Accumulator
   ( Accumulator (..)
   , singleton
   , accumulateMany
-  , AccumulatorMonoid (..)
+  , AccumulatorSemigroup (..)
   ) where
 
 import qualified Data.Set as Set
 import           Data.Foldable (foldl')
+import           Data.Semigroup
 
 -- | An 'Accumulator c i' supports accumulation of elements of type i in it.
 -- This is different from 'Semigroup' or 'Monoid', where '<>' acts between
@@ -42,13 +43,12 @@ instance Accumulator [a] a where
 instance Ord a => Accumulator (Set.Set a) a where
   accumulate = Set.insert
 
-instance Monoid m => Accumulator (AccumulatorMonoid m) (AccumulatorMonoid m) where
-  accumulate = mappend
+instance Semigroup m => Accumulator (AccumulatorSemigroup m) (AccumulatorSemigroup m) where
+  accumulate = (<>)
 
--- | Lift a monoid into an Accumulator. This is a newtype because the mappend isn't always the ideal way of accumulating
-newtype AccumulatorMonoid a = AccumulatorMonoid {getAccumulatorMonoid :: a}
+-- | Lift a 'Semigroup' into an Accumulator. This is a newtype because (<>) isn't always the ideal way of accumulating
+newtype AccumulatorSemigroup a = AccumulatorSemigroup {getAccumulatorSemigroup :: a}
 
-instance Monoid m => Monoid (AccumulatorMonoid m) where
-  mempty = AccumulatorMonoid mempty
-  mappend (AccumulatorMonoid a) (AccumulatorMonoid b) = AccumulatorMonoid $ mappend a b
+instance Semigroup m => Semigroup (AccumulatorSemigroup m) where
+  (<>) (AccumulatorSemigroup a) (AccumulatorSemigroup b) = AccumulatorSemigroup $ (<>) a b
 
