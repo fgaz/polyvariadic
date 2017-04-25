@@ -1,5 +1,6 @@
 # Revision history for polyvariadic
 
-## 0.1.0.0  -- YYYY-mm-dd
+## 0.3.0.0  -- 2017-04-19
 
-* First version. Released on an unsuspecting world.
+* First public version.
+
