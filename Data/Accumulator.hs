@@ -1,5 +1,6 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE CPP #-}
 
 -- |
 -- Module      :  Data.Accumulator
@@ -22,6 +23,10 @@ module Data.Accumulator
 import qualified Data.Set as Set
 import           Data.Foldable (foldl')
 import           Data.Semigroup
+
+#if !MIN_VERSION_base(4,8,0)
+import Data.Foldable
+#endif
 
 -- | An 'Accumulator c i' supports accumulation of elements of type i in it.
 -- This is different from 'Semigroup' or 'Monoid', where '<>' acts between
