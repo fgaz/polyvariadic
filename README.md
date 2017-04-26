@@ -3,7 +3,7 @@
 **Creation and application of polyvariadic functions**
 
 [![Build Status](https://travis-ci.org/fgaz/polyvariadic.svg?branch=master)](https://travis-ci.org/fgaz/polyvariadic)
-[![Hackage](https://img.shields.io/hackage/v/polyvariadic.svg)]()
+[![Hackage](https://img.shields.io/hackage/v/polyvariadic.svg)](https://hackage.haskell.org/package/polyvariadic)
 
 For example, the classic printf:
 
