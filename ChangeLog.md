@@ -1,5 +1,9 @@
 # Revision history for polyvariadic
 
+## 0.3.0.3  -- 2017-04-19
+
+* Fixed infinite loop on apply and apply'
+
 ## 0.3.0.2  -- 2017-12-19
 
 * Added readme to extra-source-files so it shows up on hackage
