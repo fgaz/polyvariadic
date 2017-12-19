@@ -97,7 +97,7 @@ class Apply a b x where
 
 -- | The final type is not reached yet and the application continues
 instance (Apply a b x) => Apply a b (a -> x) where
-  apply' f (x:xs) = apply (f x) xs
+  apply' f (x:xs) = apply' (f x) xs
   apply' _ _ = error "Not enough arguments in polyvariadic application"
 
 -- | The final type is reached and the application terminates
@@ -106,5 +106,5 @@ instance Apply a b b where
 
 -- | Like 'apply'' but with an arbitrary 'Foldable' instead if a list
 apply :: (Apply a b x, Foldable t) => x -> t a -> b
-apply f = apply f . toList
+apply f = apply' f . toList
 
