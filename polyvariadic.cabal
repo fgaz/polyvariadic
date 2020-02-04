@@ -24,6 +24,7 @@ source-repository head
 library
   exposed-modules:     Data.Accumulator, Data.Function.Polyvariadic
   -- other-modules:       
+  default-extensions:  Safe
   other-extensions:    MultiParamTypeClasses, FlexibleInstances, CPP
   build-depends:       base >=4.7 && <4.13
                      , containers >=0.1 && <0.7
