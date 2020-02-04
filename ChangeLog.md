@@ -1,5 +1,9 @@
 # Revision history for polyvariadic
 
+## 0.3.0.4  -- 2020-02-04
+
+* Enabled Safe Haskell
+
 ## 0.3.0.3  -- 2017-04-19
 
 * Fixed infinite loop on apply and apply'
